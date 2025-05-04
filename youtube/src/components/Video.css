@@ -1,0 +1,25 @@
+.container{
+
+    width: 15em;
+    margin: 0 0.2 em;
+    float: left;
+}
+
+.img{
+
+    margin: 0.2em;
+}
+
+.title{
+
+    font-weight: bold;
+    margin-bottom: 1em;
+    color: aliceblue;
+}
+
+.channelName, .views{
+
+    font-size: small;
+    color: white;
+    margin-bottom: 0.2em;
+}
