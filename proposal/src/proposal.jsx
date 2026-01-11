@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Heart, Sparkles, Send } from "lucide-react";
-import "./Proposalsite.css";
+import "./proposalsite.css";
 // import EmailService from "./emailService.jsx";
 import emailjs from "@emailjs/browser";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
+
 
 export default function ProposalSite() {
   const [page, setPage] = useState("welcome");
