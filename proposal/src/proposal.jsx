@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Heart, Sparkles, Send } from "lucide-react";
-import "./ProposalSite.css";
+import "./Proposalsite.css";
 // import EmailService from "./emailService.jsx";
 import emailjs from "@emailjs/browser";
 import { Toaster } from "react-hot-toast";
