@@ -334,3 +334,99 @@ body {
     padding: 20px;
   }
 }
+/* ===================== MOBILE & SMALL SCREEN FIXES ===================== */
+
+/* Prevent height overflow on short screens */
+@media (max-height: 700px) {
+  .page-container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+/* Phones & small devices */
+@media (max-width: 640px) {
+  .content-wrapper {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .page-container {
+    align-items: flex-start;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  /* Reduce floating icon size so they don’t overlap text */
+  .heart-1 {
+    width: 40px;
+    height: 40px;
+    top: 5%;
+    left: 5%;
+  }
+
+  .heart-2 {
+    width: 50px;
+    height: 50px;
+    top: 65%;
+    right: 5%;
+  }
+
+  .heart-3 {
+    width: 35px;
+    height: 35px;
+    bottom: 15%;
+    left: 10%;
+  }
+
+  .sparkle-1,
+  .sparkle-2 {
+    width: 25px;
+    height: 25px;
+  }
+
+  /* Buttons fit screen width better */
+  .cta-button {
+    width: 100%;
+    max-width: 280px;
+    padding: 16px 24px;
+  }
+
+  .choice-button {
+    width: 100%;
+    max-width: 320px;
+    padding: 18px 24px;
+  }
+
+  .send-button {
+    width: 100%;
+    padding: 14px 20px;
+  }
+
+  /* Message box fits small screens */
+  .message-box {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .message-input {
+    padding: 16px;
+    font-size: 1rem;
+  }
+}
+
+/* Very small phones (≤360px width) */
+@media (max-width: 360px) {
+  .main-title {
+    font-size: 2.2rem;
+  }
+
+  .question-title,
+  .response-title {
+    font-size: 1.9rem;
+  }
+
+  .question-subtitle {
+    font-size: 1.3rem;
+  }
+}
