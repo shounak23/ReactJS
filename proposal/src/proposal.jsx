@@ -6,7 +6,6 @@ import emailjs from "@emailjs/browser";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 
-
 export default function ProposalSite() {
   const [page, setPage] = useState("welcome");
 
@@ -53,8 +52,55 @@ export default function ProposalSite() {
             There's something important I need to ask you...
           </p>
 
-          <button onClick={() => setPage("question")} className="cta-button">
+          <button onClick={() => setPage("view")} className="cta-button">
             <span>I'm Ready</span>
+            <Heart className="button-icon" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const ViewPage = () => {
+    return (
+      <div className="page-container welcome-page">
+        <div className="floating-hearts">
+          <Heart className="heart heart-1" />
+          <Heart className="heart heart-2" />
+          <Sparkles className="sparkle sparkle-1" />
+        </div>
+
+        <div className="content-wrapper fade-in view-page">
+          <h2 className="response-title">Before I Ask You Anything</h2>
+
+          <p className="welcome-text view-text">
+            I will feel good if you speak in a way that makes you feel good.
+            <br />
+            <br />
+            You don’t need to filter your thoughts for me.
+            <br />
+            <br />
+            Speak your mind.
+            <br />
+            Speak from your heart.
+            <br />
+            <br />
+            You are free to do things your way,
+            <br />
+            in your time,
+            <br />
+            in your comfort,
+            <br />
+            exactly how you want.
+            <br />
+            <br />
+            All I want is honesty,
+            <br />
+            because your truth matters to me.
+          </p>
+
+          <button onClick={() => setPage("question")} className="cta-button">
+            <span>Now I’m Ready</span>
             <Heart className="button-icon" />
           </button>
         </div>
@@ -229,6 +275,7 @@ export default function ProposalSite() {
         {page === "question" && <QuestionPage />}
         {page === "yes" && <YesPage />}
         {page === "no" && <NoPage />}
+        {page === "view" && <ViewPage />}
       </div>
     </>
   );

@@ -430,3 +430,13 @@ body {
     font-size: 1.3rem;
   }
 }
+
+/* ===================== VIEW PAGE ===================== */
+.view-page {
+  max-width: 700px;
+}
+
+.view-text {
+  line-height: 1.9;
+  margin-bottom: 40px;
+}
