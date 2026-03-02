@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Heart, Sparkles, Send } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import "./proposalsite.css";
 // import EmailService from "./emailService.jsx";
 import emailjs from "@emailjs/browser";
@@ -20,7 +21,7 @@ export default function ProposalSite() {
           message: msg,
           to_email,
         },
-        import.meta.env.VITE_YOUR_PUBLIC_KEY
+        import.meta.env.VITE_YOUR_PUBLIC_KEY,
       );
       console.log("responce", response.status, response.text);
       toast.success("Email sent successfully 💌");
@@ -151,53 +152,63 @@ export default function ProposalSite() {
 
     return (
       <div className="page-container yes-page">
-        <div className="celebration-bg">
-          {[...Array(20)].map((_, i) => (
-            <Heart
-              key={i}
-              className={`celebration-heart heart-${i}`}
-              fill="currentColor"
-            />
-          ))}
-        </div>
-
-        <div className="content-wrapper">
-          <h2 className="response-title">
-            You've made me
-            <br />
-            <span className="highlight">the happiest person!</span>
-          </h2>
-
-          <p className="response-subtitle">
-            Tell me what you want from me as your partner,
-            <br />
-            or what I should change to be more perfect for you
-          </p>
-
-          <div className="message-box">
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Share your thoughts with me..."
-              className="message-input"
-              rows="6"
-            />
-
-            <button
-              onClick={() => {
-                if (message.trim()) {
-                  emailService(page, message, "shounakvideoediting@gmail.com");
-                  setMessage("");
-                }
-              }}
-              className="send-button"
-              disabled={!message.trim()}
-            >
-              <Send className="button-icon" />
-              <span>Send My Thoughts</span>
-            </button>
+        <button className="back-button" onClick={() => setPage("welcome")}>
+          <ArrowLeft className="back-button-icon" />
+          Back
+        </button>
+        <>
+          <div className="celebration-bg">
+            {[...Array(20)].map((_, i) => (
+              <Heart
+                key={i}
+                className={`celebration-heart heart-${i}`}
+                fill="currentColor"
+              />
+            ))}
           </div>
-        </div>
+
+          <div className="content-wrapper">
+            <h2 className="response-title">
+              You've made me
+              <br />
+              <span className="highlight">the happiest person!</span>
+            </h2>
+
+            <p className="response-subtitle">
+              Tell me what you want from me as your partner,
+              <br />
+              or what I should change to be more perfect for you
+            </p>
+
+            <div className="message-box">
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Share your thoughts with me..."
+                className="message-input"
+                rows="6"
+              />
+
+              <button
+                onClick={() => {
+                  if (message.trim()) {
+                    emailService(
+                      page,
+                      message,
+                      "shounakvideoediting@gmail.com",
+                    );
+                    setMessage("");
+                  }
+                }}
+                className="send-button"
+                disabled={!message.trim()}
+              >
+                <Send className="button-icon" />
+                <span>Send My Thoughts</span>
+              </button>
+            </div>
+          </div>
+        </>
       </div>
     );
   };
@@ -206,55 +217,65 @@ export default function ProposalSite() {
     const [message, setMessage] = useState("");
     return (
       <div className="page-container no-page">
-        <div className="content-wrapper fade-in">
-          <h2 className="response-title sad">I understand...</h2>
+        <button className="back-button" onClick={() => setPage("welcome")}>
+          <ArrowLeft className="back-button-icon" />
+          Back
+        </button>
+        <>
+          <div className="content-wrapper fade-in">
+            <h2 className="response-title sad">I understand...</h2>
 
-          <p className="response-subtitle">
-            Could you help me understand why?
-            <br />
-            Your honesty means everything to me
-          </p>
-
-          <div className="message-box">
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Please share your reasons..."
-              className="message-input"
-              rows="6"
-            />
-
-            <button
-              onClick={() => {
-                if (message.trim()) {
-                  emailService(page, message, "shounakvideoediting@gmail.com");
-                  toast(
-                    "I respect your decision and appreciate your honesty.",
-                    {
-                      icon: "🤍",
-                    }
-                  );
-
-                  setMessage("");
-                }
-              }}
-              className="send-button secondary"
-              disabled={!message.trim()}
-            >
-              <Send className="button-icon" />
-              <span>Share</span>
-            </button>
-          </div>
-
-          <div className="apology-box">
-            <p className="apology-text">
-              I'm sorry if I made you uncomfortable or put you in a difficult
-              position. Your feelings and happiness are what matter most to me.
-              Thank you for being honest, and I hope we can still cherish the
-              connection we have.
+            <p className="response-subtitle">
+              Could you help me understand why?
+              <br />
+              Your honesty means everything to me
             </p>
+
+            <div className="message-box">
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Please share your reasons..."
+                className="message-input"
+                rows="6"
+              />
+
+              <button
+                onClick={() => {
+                  if (message.trim()) {
+                    emailService(
+                      page,
+                      message,
+                      "shounakvideoediting@gmail.com",
+                    );
+                    toast(
+                      "I respect your decision and appreciate your honesty.",
+                      {
+                        icon: "🤍",
+                      },
+                    );
+
+                    setMessage("");
+                  }
+                }}
+                className="send-button secondary"
+                disabled={!message.trim()}
+              >
+                <Send className="button-icon" />
+                <span>Share</span>
+              </button>
+            </div>
+
+            <div className="apology-box">
+              <p className="apology-text">
+                I'm sorry if I made you uncomfortable or put you in a difficult
+                position. Your feelings and happiness are what matter most to
+                me. Thank you for being honest, and I hope we can still cherish
+                the connection we have.
+              </p>
+            </div>
           </div>
-        </div>
+        </>
       </div>
     );
   };
