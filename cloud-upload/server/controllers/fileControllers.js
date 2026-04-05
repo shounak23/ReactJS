@@ -1,4 +1,4 @@
-import { Files } from "../models/files.model.js";
+import { Files } from "../models/file.model.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { ApiError } from "../utils/apiError.js";
 import cloudinary from "../config/cloudinary.js";
@@ -8,9 +8,9 @@ export const getFiles = async (req, res, next) => {
   try {
     const files = await Files.find({ owner: req.session.user.id });
 
-    return res.status(200).json(
-      new ApiResponse(200, "Files fetched successfully", files)
-    );
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "Files fetched successfully", files));
   } catch (error) {
     next(error);
   }
@@ -21,19 +21,33 @@ export const uploadFile = async (req, res, next) => {
   try {
     if (!req.file) throw new ApiError(400, "No file uploaded");
 
+    // upload buffer to cloudinary
+    const cloudinaryResult = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { folder: "cloud-upload" },
+        (error, result) => {
+          if (error) reject(new ApiError(500, "Cloudinary upload failed"));
+          else resolve(result);
+        }
+      );
+      stream.end(req.file.buffer); // ← memory buffer goes to cloudinary
+      //const result = await cloudinary.uploader.upload(req.file.path);
+
+    });
+
     const file = await Files.create({
       originalName: req.file.originalname,
-      storedName: req.file.filename,
-      fileUrl: req.file.path,           // cloudinary gives URL in req.file.path
+      storedName: cloudinaryResult.filename,
+      fileUrl: cloudinaryResult.path, // cloudinary gives URL in req.file.path
       fileType: req.file.mimetype,
       fileSize: req.file.size,
       cloudPublicId: req.file.filename, // cloudinary public id
       owner: req.session.user.id,
     });
 
-    return res.status(201).json(
-      new ApiResponse(201, "File uploaded successfully", file)
-    );
+    return res
+      .status(201)
+      .json(new ApiResponse(201, "File uploaded successfully", file));
   } catch (error) {
     next(error);
   }
@@ -57,9 +71,9 @@ export const deleteFile = async (req, res, next) => {
     // delete from DB
     await file.deleteOne();
 
-    return res.status(200).json(
-      new ApiResponse(200, "File deleted successfully")
-    );
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "File deleted successfully"));
   } catch (error) {
     next(error);
   }

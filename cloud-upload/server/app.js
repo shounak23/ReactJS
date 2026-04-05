@@ -1,12 +1,11 @@
 import express from "express";
 import userRoutes from "./routes/user.routes.js";
-import filesRoutes from "./routes/files.routes.js";
+import filesRoutes from "./routes/file.routes.js";
 import dotenv from "dotenv";
-import path from "path";
 import MongoStore from "connect-mongo";
 import session from "express-session";
 import { DB_NAME } from "./constant.js";
-import { isAuthenticated } from "./controllers/authControllers.js";
+import { isAuthenticated } from "./middleware/authMiddleware.js";
 import cors from "cors";
 import { ApiError } from "./utils/apiError.js";
 
@@ -51,6 +50,7 @@ app.use("/api/auth", userRoutes);
 app.use("/api/files", isAuthenticated, filesRoutes);
 
 app.use((err, req, res, next) => {
+  console.error("GLOBAL ERROR →", err); // ← add this line
   const status = err.statusCode || 500;
   const message = err.message || "Internal server error";
   return res.status(status).json(new ApiError(status, message));

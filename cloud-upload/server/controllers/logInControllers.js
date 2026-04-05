@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { ApiError } from "../utils/apiError.js";
 
-export const loginController = async (req, res, next) => {
+export const  loginController = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 

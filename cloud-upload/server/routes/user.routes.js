@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { loginController } from "../controllers/logInControllers.js";
-import { logoutController } from "../controllers/logOutControllers.js";
+import { logoutController } from "../controllers/logoutControllers.js";
 import { registrationControllers } from "../controllers/registrationControllers.js";
 import { isAuthenticated } from "../middleware/authMiddleware.js";
 
