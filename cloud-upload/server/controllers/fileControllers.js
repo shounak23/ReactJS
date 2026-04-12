@@ -24,24 +24,28 @@ export const uploadFile = async (req, res, next) => {
     // upload buffer to cloudinary
     const cloudinaryResult = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
-        { folder: "cloud-upload" },
+        {
+          folder: "cloud-upload",
+          public_id: req.file.originalname.split(".")[0],
+        },
         (error, result) => {
           if (error) reject(new ApiError(500, "Cloudinary upload failed"));
           else resolve(result);
-        }
+        },
       );
       stream.end(req.file.buffer); // ← memory buffer goes to cloudinary
       //const result = await cloudinary.uploader.upload(req.file.path);
-
     });
+
+    console.log("cloudinaryResult", cloudinaryResult);
 
     const file = await Files.create({
       originalName: req.file.originalname,
-      storedName: cloudinaryResult.filename,
-      fileUrl: cloudinaryResult.path, // cloudinary gives URL in req.file.path
+      storedName: cloudinaryResult.public_id,
+      fileUrl: cloudinaryResult.secure_url, // cloudinary gives URL in req.file.path
       fileType: req.file.mimetype,
       fileSize: req.file.size,
-      cloudPublicId: req.file.filename, // cloudinary public id
+      cloudPublicId: cloudinaryResult.public_id, // cloudinary public id
       owner: req.session.user.id,
     });
 
