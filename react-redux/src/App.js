@@ -1,20 +1,46 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
-import { addCount, removeCount, resetCount } from "./Features/counterSlice";
-// import { useState } from 'react';
+import {
+  increment,
+  decrement,
+  incrementByVal,
+} from "./features/counter/counterSlice.js";
+import { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  Link,
+} from "react-router-dom";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
 
 function App() {
-  const count = useSelector((state) => state.counter.count);
-  const dispatch = useDispatch();
-  // const [count, setCount] = useState(0);
   return (
-    <div className="App">
-      <h1>{count}</h1>
-      <button onClick={() => dispatch(addCount())}>Add</button>
-      <button onClick={() => dispatch(removeCount())}>Subtract</button>
-      <button onClick={() => dispatch(resetCount())}>Reset</button>
-    </div>
+    <>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+        </Routes>
+      </Router>
+    </>
   );
 }
+
+const styles = {
+  container: {
+    textAlign: "center",
+    marginTop: "50px",
+    fontFamily: "Arial",
+  },
+  buttonGroup: {
+    margin: "10px",
+  },
+  inputGroup: {
+    marginTop: "20px",
+  },
+};
 
 export default App;
