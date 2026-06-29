@@ -6,7 +6,7 @@ import cloudinary from "../config/cloudinary.js";
 // GET all files for logged in user
 export const getFiles = async (req, res, next) => {
   try {
-    const files = await Files.find({ owner: req.session.user.id });
+    const files = await Files.find({ owner: req.user._id });
 
     return res
       .status(200)

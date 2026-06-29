@@ -2,6 +2,7 @@ import { User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { ApiError } from "../utils/apiError.js";
+import jwt from "jsonwebtoken";
 
 export const registrationControllers = async (req, res, next) => {
   try {
