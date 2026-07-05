@@ -8,11 +8,13 @@ import { DB_NAME } from "./constant.js";
 import { isAuthenticated } from "./middleware/authMiddleware.js";
 import cors from "cors";
 import { ApiError } from "./utils/apiError.js";
+import cookieParser from "cookie-parser"; // ← is this imported?
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 // app.set("view engine", "ejs");
 // app.set("views", path.join(process.cwd(), "views"));

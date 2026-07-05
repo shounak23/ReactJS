@@ -8,21 +8,27 @@ export const registrationControllers = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
 
-    if (!username || !email || !password) throw new ApiError(400, "All fields are required");
+    if (!username || !email || !password)
+      throw new ApiError(400, "All fields are required");
 
     const existingUser = await User.findOne({ email });
     if (existingUser) throw new ApiError(409, "Email already exists");
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await User.create({ username, email, password: hashedPassword });
+    const user = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+      role: "client",
+    });
 
     return res.status(201).json(
       new ApiResponse(201, "Registration successful", {
         id: user._id,
         email: user.email,
         username: user.username,
-      })
+      }),
     );
   } catch (error) {
     next(error);

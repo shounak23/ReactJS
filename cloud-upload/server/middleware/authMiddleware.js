@@ -15,7 +15,6 @@ export const isAuthenticated = async (req, res, next) => {
 
     // Step 3 — Verify access token (checks signature + expiry)
     const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
-
     // Step 4 — Find user in DB
     const user = await User.findById(decoded.userId).select("-password");
     if (!user) {
