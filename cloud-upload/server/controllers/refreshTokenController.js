@@ -55,7 +55,7 @@ export const refreshTokenController = async (req, res, next) => {
     });
 
     return res.status(200).json(
-      new ApiResponse(200, "Token refreshed", {
+      new ApiResponse (200, "Token refreshed", {
         accessToken: newAccessToken,
       }),
     );

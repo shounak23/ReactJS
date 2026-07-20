@@ -8,6 +8,8 @@ export const logOutController = async (req, res, next) => {
       { userId: req.user._id, isValid: true }, // find session
       { isValid: false }, // update this field
     );
+    // do this if audit log is not required
+    await Session.deleteOne({ userId: req.user._id });
     // clear refresh token cookie
     res.clearCookie("refreshToken", {
       httpOnly: true,

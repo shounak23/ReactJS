@@ -21,9 +21,19 @@ export const isAuthenticated = async (req, res, next) => {
       throw new ApiError(401, "Unauthorized - User no longer exists");
     }
 
+    // after finding user
+    const session = await Session.findOne({
+      userId: decoded.userId,
+      isValid: true, // ← this is the key check, if isValid = false, this is uesr's old refresh token
+    });
+
+    if (!session) {
+      throw new ApiError(401, "Session expired - please login again");
+    }
+
     // Step 5 — Attach user to request
     req.user = user;
-    console.log("user at auth", user)
+    console.log("user at auth", user);
     next();
   } catch (error) {
     // Handle jwt specific errors
