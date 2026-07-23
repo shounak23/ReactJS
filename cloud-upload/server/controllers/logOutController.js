@@ -3,7 +3,6 @@ import { ApiResponse } from "../utils/apiResponse.js";
 
 export const logOutController = async (req, res, next) => {
   try {
-    console.log("user", req.user);
     await Session.findOneAndUpdate(
       { userId: req.user._id, isValid: true }, // find session
       { isValid: false }, // update this field

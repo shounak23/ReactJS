@@ -1,9 +1,12 @@
+import { Session } from "../models/session.model.js";
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/apiError.js";
 import jwt from "jsonwebtoken";
 
 export const isAuthenticated = async (req, res, next) => {
   try {
+    const refreshToken = req.cookies.refreshToken;
+
     // Step 1 — Check access token exists
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -20,10 +23,10 @@ export const isAuthenticated = async (req, res, next) => {
     if (!user) {
       throw new ApiError(401, "Unauthorized - User no longer exists");
     }
-
-    // after finding user
+    // after finding user, use refreshToken to handel multi device login
     const session = await Session.findOne({
       userId: decoded.userId,
+      refreshToken,
       isValid: true, // ← this is the key check, if isValid = false, this is uesr's old refresh token
     });
 
@@ -33,7 +36,7 @@ export const isAuthenticated = async (req, res, next) => {
 
     // Step 5 — Attach user to request
     req.user = user;
-    console.log("user at auth", user);
+
     next();
   } catch (error) {
     // Handle jwt specific errors

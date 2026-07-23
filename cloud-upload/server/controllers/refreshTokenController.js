@@ -10,8 +10,6 @@ export const refreshTokenController = async (req, res, next) => {
   try {
     const refreshToken = req.cookies.refreshToken;
 
-    console.log(refreshToken);
-
     if (!refreshToken) {
       throw new ApiError(401, "Unauthorized - No refresh token");
     }
@@ -55,7 +53,7 @@ export const refreshTokenController = async (req, res, next) => {
     });
 
     return res.status(200).json(
-      new ApiResponse (200, "Token refreshed", {
+      new ApiResponse(200, "Token refreshed", {
         accessToken: newAccessToken,
       }),
     );
