@@ -22,19 +22,21 @@ export const loginController = async (req, res, next) => {
     // check user is already loggedIn from other device or not
     const alreadyLoggedIn = await Session.findOne({
       userId: user._id,
+      userAgent: req.headers["user-agent"], // ← same device check
       isValid: true,
     });
 
-    if (alreadyLoggedIn && process.env.MULTIDEVICE_LOGIN != 1) {
-      await logActivity({
-        userId: user._id,
-        action: "failed_login",
-        status: "failed",
-        ip: req.ip,
-        userAgent: req.headers["user-agent"],
-        details: "Multi-device login not allowed",
-      });
-      throw new ApiError(403, "Already logged in from another device");
+    if (alreadyLoggedIn) {
+      if (process.env.MULTIDEVICE_LOGIN != 1) {
+        // block completely
+        throw new ApiError(403, "Already logged in from another device");
+      } else {
+        // same device logging in again → delete old session, create new one
+        await Session.deleteOne({
+          userId: user._id,
+          userAgent: req.headers["user-agent"],
+        });
+      }
     }
 
     // generate access token

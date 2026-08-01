@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 export const registrationControllers = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
 
     if (!username || !email || !password)
       throw new ApiError(400, "All fields are required");
@@ -20,7 +20,7 @@ export const registrationControllers = async (req, res, next) => {
       username,
       email,
       password: hashedPassword,
-      role: "client",
+      role,
     });
 
     return res.status(201).json(
