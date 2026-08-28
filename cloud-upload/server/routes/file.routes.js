@@ -10,7 +10,7 @@ import { uploadMulter } from "../config/multer.js";
 const router = Router();
 
 router.get("/", getFiles);
-router.post("/", uploadMulter.single("file"), uploadFile);
+router.post("/upload", uploadMulter.single("file"), uploadFile);
 router.delete("/:id", deleteFile);
 
 export default router;

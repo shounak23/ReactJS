@@ -1,13 +1,13 @@
- import mongoose from "mongoose";
+import mongoose from "mongoose";
 
 const filesSchema = new mongoose.Schema(
   {
-    originalName: String, // photo.jpg (user given name)
-    storedName: String, // renamed file (timestamp version)
-    fileUrl: String, // Cloudinary / AWS URL
-    fileType: String, // image/png, application/pdf
-    fileSize: Number, // in bytes
-    cloudPublicId: String, // needed to delete from cloud
+    originalName: { type: String, required: true },
+    storedName:   { type: String, required: true },
+    fileUrl:      { type: String, required: true },
+    fileType:     { type: String, required: true },
+    fileSize:     { type: Number, required: true },
+    cloudPublicId:{ type: String, required: true },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

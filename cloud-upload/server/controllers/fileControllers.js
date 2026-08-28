@@ -20,13 +20,13 @@ export const getFiles = async (req, res, next) => {
 export const uploadFile = async (req, res, next) => {
   try {
     if (!req.file) throw new ApiError(400, "No file uploaded");
-
+    console.log("files", req.file);
     // upload buffer to cloudinary
     const cloudinaryResult = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         {
           folder: "cloud-upload",
-          public_id: req.file.originalname.split(".")[0],
+          public_id: `${Date.now()}_${req.file.originalname.split(".")[0]}`,
         },
         (error, result) => {
           if (error) reject(new ApiError(500, "Cloudinary upload failed"));
@@ -46,7 +46,7 @@ export const uploadFile = async (req, res, next) => {
       fileType: req.file.mimetype,
       fileSize: req.file.size,
       cloudPublicId: cloudinaryResult.public_id, // cloudinary public id
-      owner: req.session.user.id,
+      owner: req.user._id,
     });
 
     return res
