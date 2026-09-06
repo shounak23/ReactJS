@@ -6,11 +6,60 @@ import cloudinary from "../config/cloudinary.js";
 // GET all files for logged in user
 export const getFiles = async (req, res, next) => {
   try {
-    const files = await Files.find({ owner: req.user._id });
+    const limit = parseInt(process.env.FILES_PER_PAGE) || 10;
+    const cursor = req.query.cursor || null;
+    const search = req.query.search || "";
+    const sortBy = req.query.sortBy || "createdAt";
+    const order = req.query.order || "desc";
+    const type = req.query.type || ""; // filter by file type
 
-    return res
-      .status(200)
-      .json(new ApiResponse(200, "Files fetched successfully", files));
+    // build filter
+    const filter = {
+      owner: req.user._id,
+    };
+
+    // search by file name
+    if (search) {
+      filter.originalName = {
+        $regex: search,
+        $options: "i",
+      };
+    }
+
+    // filter by file type
+    if (type) {
+      filter.fileType = {
+        $regex: type,
+        $options: "i", // "image" matches image/jpeg, image/png etc
+      };
+    }
+
+    // cursor filter
+    if (cursor) {
+      filter._id = { $lt: cursor }; // files before this cursor
+    }
+
+    // fetch files
+    const files = await Files.find(filter)
+      .sort({ [sortBy]: order === "desc" ? -1 : 1 })
+      .limit(limit + 1); // fetch one extra to check if more exist
+
+    // check if more files exist
+    const hasMore = files.length > limit;
+
+    // remove the extra file
+    if (hasMore) files.pop();
+
+    // next cursor = last file's ID
+    const nextCursor = hasMore ? files[files.length - 1]._id : null;
+
+    return res.status(200).json(
+      new ApiResponse(200, "Files fetched successfully", {
+        files,
+        nextCursor,
+        hasMore,
+      }),
+    );
   } catch (error) {
     next(error);
   }
