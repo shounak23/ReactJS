@@ -114,7 +114,7 @@ export const deleteFile = async (req, res, next) => {
     if (!file) throw new ApiError(404, "File not found");
 
     // make sure the file belongs to the logged in user
-    if (file.owner.toString() !== req.session.user.id.toString()) {
+    if (file.owner.toString() !== req.user._id.toString()) {
       throw new ApiError(403, "Unauthorized");
     }
 

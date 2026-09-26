@@ -10,8 +10,8 @@ import { validate } from "../middleware/validate.js";
 
 const router = Router();
 
-router.post("/login", validate(registerSchema), loginController);
-router.post("/register", validate(loginSchema), registrationControllers);
+router.post("/login", validate(loginSchema), loginController);
+router.post("/register", validate(registerSchema), registrationControllers);
 router.post("/logout", isAuthenticated, logOutController);
 router.get("/dashboard", isAuthenticated, (req, res) => {
   res.status(200).json({ user: req.user._id });
